@@ -1,256 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gosha</title>
-     <style>
-         .container{
-    max-width: 1000px;
-    margin: 0 auto;
-}
- 
-.header{
-    background: #F1F1F2;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
- 
-.nav{
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-}
- 
-.nav_title{
-    font-size: 20px;
-    font-weight: bold;
-}
- 
-.nav_input{
-    width: 50%;
-    border-radius: 10px;
-}
- 
-.nav_btn{
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: 2px solid black;
-    cursor: pointer;
-    background: #D4DDE1;
-}
- 
-.nav_btn:hover{
-    background: #1995AD;
-}
- 
- 
- 
-.profile{
-    background-color: #FFE7DC;
-    padding: 60px 0px 25px 0;
-    border-radius: 5px;
-}
- 
-.img{
-    display: block;
-    margin: 0 auto;
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    border: 1px solid black;
-}
- 
- 
-.name{
-    display: block;
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 0;
-}
- 
-.status{
-    display: block;
-    text-align: center;
-    margin-top: 0;
-}
- 
-.btns{
-    display: block;
-    text-align: center;
-}
- 
-.btn{
-    padding: 10px;
-    border-radius: 20px;
-    border: 2px solid black;
-    cursor: pointer;
-    background: #D4DDE1;
-}
- 
-.btn:hover{
-    background: #1995AD;
-}
- 
-.info{
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0px;
-    border-bottom: 1px solid black;
-    border-top: 1px solid black;
-    background: #F1F1F2;
-    border-radius: 5px;
-}
- 
-.number{
-    text-align: center;
-}
- 
-.well{
-    margin-top: 10px;
-    background-color:	#D4DDE1;
-    padding: 10px 0px;
-    border-radius: 5px;
-}
- 
-.title{
-    font-size: 20px;
-    font-weight: bold;
-    padding-left: 5px;
-}
- 
-.notes{
-    padding-top: 10px;
-    padding-left: 30px;
-    padding-right: 10px;
-}
- 
-.note{
-    margin: 25px 0px;
-}
- 
-.note:not(:last-child){
-    border-bottom: 1px solid #71726E;
-}
- 
-.time_note{
-    color: #71726E;
-    margin-bottom: 5px;
-}
- 
-.descr_note{
-    font-size: 15px;
-    margin-bottom: 5px;
-}
- 
-.img_note{
-    width: 70%;
-    border-radius: 20px;
-    margin-bottom: 5px;
-}
-     </style>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 </head>
+
+<style>
+    body {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+    
+    .calc {
+        margin: 50px auto;
+        width: 288px;
+        height: 580px;
+        color: cfd1ce;
+        background-color: #1f1f1f;
+        box-shadow: 2px 5px 5px #1f1f1f;
+        border-radius: 10px;
+    }
+    
+    .buttons {
+        padding: 10px;
+        cursor: pointer;
+        user-select: none;
+        grid-gap: 5px;
+        display: grid;
+        grid-template-areas: "ac ac expon division" "seven eight nine multiply" "four five six minus" "one two three plus" "zero comma delete equals";
+    }
+    
+    .btn {
+        text-transform: uppercase;
+        color: #cfd1ce;
+        text-align: center;
+        font-weight: 500;
+        line-height: 64px;
+        font-size: 24px;
+        width: 64px;
+        height: 64px;
+        border-radius: 32px;
+    }
+    
+    .btn:hover {
+        transition-duration: 0.2s;
+        border-radius: 15px;
+    }
+    
+    .btn.grey:hover {
+        background-color: #555458;
+    }
+    
+    .btn.blue:hover {
+        background-color: #00619f;
+    }
+    
+    .btn.green:hover {
+        background-color: #1a4e25;
+    }
+    
+    .btn.darkblue:hover {
+        background-color: #16436d;
+    }
+    
+    .green {
+        background: #044111;
+    }
+    
+    .darkblue {
+        background: #132d45;
+    }
+    
+    .blue {
+        background: #00416b;
+    }
+    
+    .grey {
+        background: #2f3033;
+    }
+    
+    .ac {
+        width: 128px;
+        grid-area: ac;
+    }
+    
+    .monitor {
+        width: 100%;
+        overflow: hidden;
+        background-color: #33383e;
+        border-radius: 10px;
+    }
+    
+    input {
+        width: 100%;
+        height: 183px;
+        background-color: #33383e;
+        border: none;
+        color: #cfd1ce;
+        text-align: right;
+        font-size: 45px;
+        outline: none;
+    }
+</style>
+
+
+
 <body>
- 
-    <header class="header container">
-        <div class="nav">
-            <div class="nav_title">
-                NeVKontakte 
-            </div>
-            <input type="text" class="nav_input" placeholder="поиск по сайту">
-            <button class="nav_btn">
-                выйти
-            </button>
+    <div class="calc">
+        <div class="monitor">
+            <form name="form">
+                <input type="text" name="textview" readonly>
+            </form>
         </div>
-    </header>
- 
-    <section class="profile container">
-            <div class="auth">
-                <img src="https://i.pinimg.com/originals/7e/c2/58/7ec25883b6b0d982e2f081b7a733ab7d.jpg" alt="" class="img">
-                <p class="name">
-                    Георгий Помпеев
-                </p>
-                <p class="status">
-                    online
-                </p>
-            </div>
-            <div class="btns">
-                <button class="btn">добавить в друзья</button>
-                <button class="btn">написать сообщение</button>
-            </div>   
-    </section>
- 
-    <section class="info container">
-            <div class="friens">
-                <div class="number">120</div>
-                <div class="word">ДРУЗЕЙ</div>
-            </div>
-            <div class="friens">
-                <div class="number">100</div>
-                <div class="word">ФОТОГРАФИЙ</div>
-            </div>
-            <div class="friens">
-                <div class="number">872</div>
-                <div class="word">ПЕСЕН</div>
-            </div>
- 
-    </section>
- 
-    <section class="well container">
-        <div class="title">
-            Записи на странице Геогрия: 
+        <div class="buttons">
+            <div class="btn ac green" onclick="clearAll()"> ac </div>
+            <div class="btn expon blue" onclick="insert('(')"> ( </div>
+            <div class="btn expon blue" onclick="insert(')')"> ) </div>
+
+
+            <div class="btn seven grey" onclick="insert('7')">7</div>
+            <div class="btn eight grey" onclick="insert('8')">8</div>
+            <div class="btn nine grey" onclick="insert('9')">9</div>
+            <div class="btn division blue" onclick="insert('/')"> ÷ </div>
+
+
+            <div class="btn four grey" onclick="insert('4')">4</div>
+            <div class="btn five grey" onclick="insert('5')">5</div>
+            <div class="btn six grey" onclick="insert('6')">6</div>
+            <div class="btn multiply blue" onclick="insert('*')"> × </div>
+
+
+            <div class="btn one grey" onclick="insert('1')">1</div>
+            <div class="btn two grey" onclick="insert('2')">2</div>
+            <div class="btn three grey" onclick="insert('3')">3</div>
+            <div class="btn minus blue" onclick="insert('-')">-</div>
+
+            <div class="btn zero grey" onclick="insert('0')">0</div>
+            <div class="btn delete grey" onclick="remove()">⌫ </div>
+            <div class="btn equals darkblue" onclick="equal()">=</div>
+            <div class="btn plus blue" onclick="insert('+')">+</div>
+
         </div>
- 
-        <div class="notes">
- 
-            <div class="note">
-                <div class="time_note">
-                    сегодня в 8:17
-                </div>
-                <div class="descr_note">
-                    Ура какое сегодня красивое солнце!
-                </div>
- 
-                <img src="https://оценика.рф/sites/default/files/works/konkurs/xgpw-2miydc.jpg" alt="" class="img_note">
-            </div>
- 
-            <div class="note">
-                <div class="time_note">
-                    20 ноября в 17:20
-                </div>
-                <div class="descr_note">
-                    Минутка юмора, мем вам в ленту!
-                </div>
- 
-                <img src="https://cs8.pikabu.ru/post_img/2017/05/17/10/og_og_149504021524876684.jpg" alt="" class="img_note">
-            </div>
- 
-            <div class="note">
-                <div class="time_note">
-                    16 ноября в 21:13
-                </div>
-                <div class="descr_note">
-                    С друзьями поехали в путешествие, всем добра!
-                </div>
- 
-                <img src="https://cs5.pikabu.ru/post_img/big/2015/06/26/4/1435297984_555687249.jpg" alt="" class="img_note">
-            </div>
- 
-            <div class="note">
-                <div class="time_note">
-                    10 ноября в 8:12
-                </div>
-                <div class="descr_note">
-                   Хочется закончить семестр без долгов, вот бы 100% за лабу...
-                </div>
- 
-                <img src="https://pbs.twimg.com/media/Evlv-OeWQAIMFCE.jpg" alt="" class="img_note">
-            </div>
- 
-        </div>
-    </section>
+    </div>
 </body>
+<script>
+    const sign = ['-', '+', '/', '*']
+    let equaled = false;
+
+    function insert(num) {
+        if (equaled) {
+            equaled = false;
+            if (sign.includes(num)) {
+                document.form.textview.value = document.form.textview.value + num;
+            } else
+                document.form.textview.value = num;
+        } else {
+            if (sign.includes(document.form.textview.value.slice(-1)) & sign.includes(num)) {
+                document.form.textview.value = document.form.textview.value.slice(0, -1) + num;
+            } else
+                document.form.textview.value = document.form.textview.value + num;
+        }
+    }
+
+    function clearAll() {
+        document.form.textview.value = "";
+    }
+
+    function remove() {
+        var exp = document.form.textview.value;
+        document.form.textview.value = exp.substring(0, exp.length - 1)
+    }
+
+    function equal() {
+        var exp = document.form.textview.value;
+        if (exp) {
+            document.form.textview.value = eval(exp);
+            equaled = true;
+        }
+    }
+</script>
+
+
 </html>
