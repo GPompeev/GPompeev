@@ -11,12 +11,12 @@
     
     .calc {
         margin: 50px auto;
-        width: 288px;
-        height: 580px;
+        width: 576px;
+        height: 1050px;
         color: cfd1ce;
         background-color: #1f1f1f;
-        box-shadow: 2px 5px 5px #1f1f1f;
-        border-radius: 10px;
+        box-shadow: 2px 10px 10px #1f1f1f;
+        border-radius: 30px;
     }
     
     .buttons {
@@ -25,7 +25,7 @@
         user-select: none;
         grid-gap: 5px;
         display: grid;
-        grid-template-areas: "ac ac expon division" "seven eight nine multiply" "four five six minus" "one two three plus" "zero comma delete equals";
+        grid-template-areas: "ac ac expon expon"
     }
     
     .btn {
@@ -33,15 +33,19 @@
         color: #cfd1ce;
         text-align: center;
         font-weight: 500;
-        line-height: 64px;
-        font-size: 24px;
-        width: 64px;
-        height: 64px;
-        border-radius: 32px;
+        line-height: 128px;
+        font-size: 48px;
+        width: 128px;
+        height: 128px;
+        border-radius: 64px;
+    }
+    
+    .btn:active {
+        opacity: 0.5;
     }
     
     .btn:hover {
-        transition-duration: 0.2s;
+        transition-duration: 0.1s;
         border-radius: 15px;
     }
     
@@ -78,7 +82,7 @@
     }
     
     .ac {
-        width: 128px;
+        width: 256px;
         grid-area: ac;
     }
     
@@ -88,96 +92,139 @@
         background-color: #33383e;
         text-align: center;
         border-radius: 10px;
+        margin-bottom: 30px;
     }
     
     input {
         width: 90%;
-        height: 183px;
+        height: 300px;
         background-color: #33383e;
         border: none;
         color: #cfd1ce;
         text-align: right;
-        font-size: 45px;
+        font-size: 100px;
         outline: none;
     }
 </style>
-
-
 
 <body>
     <div class="calc">
         <div class="monitor">
             <form name="form">
-                <input type="text" name="textview" readonly>
+                <input id="window" type="text" name="window" readonly>
             </form>
         </div>
         <div class="buttons">
             <div class="btn ac green" onclick="clearAll()"> ac </div>
             <div class="btn expon blue" onclick="insert('(')"> ( </div>
             <div class="btn expon blue" onclick="insert(')')"> ) </div>
-
-
             <div class="btn seven grey" onclick="insert('7')">7</div>
             <div class="btn eight grey" onclick="insert('8')">8</div>
             <div class="btn nine grey" onclick="insert('9')">9</div>
             <div class="btn division blue" onclick="insert('/')"> ÷ </div>
-
-
             <div class="btn four grey" onclick="insert('4')">4</div>
             <div class="btn five grey" onclick="insert('5')">5</div>
             <div class="btn six grey" onclick="insert('6')">6</div>
             <div class="btn multiply blue" onclick="insert('*')"> × </div>
-
-
             <div class="btn one grey" onclick="insert('1')">1</div>
             <div class="btn two grey" onclick="insert('2')">2</div>
             <div class="btn three grey" onclick="insert('3')">3</div>
             <div class="btn minus blue" onclick="insert('-')">-</div>
-
             <div class="btn zero grey" onclick="insert('0')">0</div>
             <div class="btn delete grey" onclick="remove()">⌫ </div>
             <div class="btn equals darkblue" onclick="equal()">=</div>
             <div class="btn plus blue" onclick="insert('+')">+</div>
-
         </div>
     </div>
 </body>
 <script>
     const sign = ['-', '+', '/', '*']
+    const digit = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '(', ')']
     let equaled = false;
+    document.form.window.value = 0;
 
-    function insert(num) {
+
+    function format() {
+        if (document.form.window.value.length < 9) {
+            document.getElementById("window").style.fontSize = "100px";
+        } else {
+            if (document.form.window.value.length < 12)
+                document.getElementById("window").style.fontSize = "80px";
+            else {
+                if (document.form.window.value.length < 15)
+                    document.getElementById("window").style.fontSize = "60px";
+                else {
+                    if (document.form.window.value.length < 17)
+                        document.getElementById("window").style.fontSize = "50px";
+                }
+            }
+        }
+    }
+
+
+    function insert(key) {
+        format();
+        if (document.form.window.value == 0) {
+            document.form.window.value = "";
+        }
         if (equaled) {
             equaled = false;
-            if (sign.includes(num)) {
-                document.form.textview.value = document.form.textview.value + num;
+            if (sign.includes(key)) {
+                document.form.window.value = document.form.window.value + key;
             } else
-                document.form.textview.value = num;
+                document.form.window.value = key;
         } else {
-            if (sign.includes(document.form.textview.value.slice(-1)) & sign.includes(num)) {
-                document.form.textview.value = document.form.textview.value.slice(0, -1) + num;
+            if (sign.includes(document.form.window.value.slice(-1)) && sign.includes(key)) {
+                document.form.window.value = document.form.window.value.slice(0, -1) + key;
             } else
-                document.form.textview.value = document.form.textview.value + num;
+                document.form.window.value = document.form.window.value + key;
         }
     }
 
     function clearAll() {
-        document.form.textview.value = "";
+        document.form.window.value = "0";
+        format();
     }
 
     function remove() {
-        var exp = document.form.textview.value;
-        document.form.textview.value = exp.substring(0, exp.length - 1)
+        document.form.window.value = document.form.window.value.slice(0, -1);
+        if (document.form.window.value.length == 0)
+            document.form.window.value = "0";
+        format();
     }
 
     function equal() {
-        var exp = document.form.textview.value;
-        if (exp) {
-            document.form.textview.value = eval(exp);
+        if (document.form.window.value) {
+            document.form.window.value = eval(document.form.window.value);
             equaled = true;
         }
+        format();
     }
-</script>
 
+    document.addEventListener("keydown", event => {
+        if (digit.includes(event.key) || sign.includes(event.key)) {
+            insert(event.key);
+        }
+        switch (event.key) {
+            case 'Delete':
+                {
+                    clearAll();
+                    break;
+                }
+            case '=':
+            case 'Enter':
+                {
+                    equal();
+                    break;
+                }
+            case 'Backspace':
+                {
+                    remove();
+                    break;
+                }
+
+        }
+    });
+</script>
 
 </html>
